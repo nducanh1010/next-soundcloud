@@ -5,6 +5,7 @@ import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Box, Button, Divider } from "@mui/material";
+<<<<<<< HEAD
 interface IProps {
   data: ITrackTop[];
   title: string;
@@ -15,11 +16,22 @@ const MainSlider = (props: IProps) => {
       <Button
         color="inherit"
         variant="contained"
+=======
+const MainSlider = () => {
+  const NextArrow = (props: any) => {
+    return (
+      <Button
+        variant="outlined"
+>>>>>>> aebdb0a34aad65083e98fdc8628382ea0cd829be
         onClick={props.onClick}
         sx={{
           position: "absolute",
           right: 0,
+<<<<<<< HEAD
           top: "25%",
+=======
+          top: "50%",
+>>>>>>> aebdb0a34aad65083e98fdc8628382ea0cd829be
           zIndex: 2,
           minWidth: 30,
           width: 35,
@@ -32,12 +44,20 @@ const MainSlider = (props: IProps) => {
   const PreviousArrow = (props: any) => {
     return (
       <Button
+<<<<<<< HEAD
         color="inherit"
         variant="contained"
         onClick={props.onClick}
         sx={{
           position: "absolute",
           top: "25%",
+=======
+        variant="outlined"
+        onClick={props.onClick}
+        sx={{
+          position: "absolute",
+          top: "50%",
+>>>>>>> aebdb0a34aad65083e98fdc8628382ea0cd829be
           zIndex: 2,
           minWidth: 30,
           width: 35,
@@ -60,12 +80,17 @@ const MainSlider = (props: IProps) => {
     <Box
       sx={{
         margin: "0 50px",
+<<<<<<< HEAD
         ".track": {
           padding: "0 10px",
           img: {
             height: 150,
             width: 150,
           },
+=======
+        ".abc": {
+          padding: "0 10px",
+>>>>>>> aebdb0a34aad65083e98fdc8628382ea0cd829be
         },
         h3: {
           border: "1px solid #ccc",
@@ -74,6 +99,7 @@ const MainSlider = (props: IProps) => {
         },
       }}
     >
+<<<<<<< HEAD
       <h2> {props.title}</h2>
       <Slider {...settings}>
         {props.data.map((track) => {
@@ -87,6 +113,28 @@ const MainSlider = (props: IProps) => {
             </div>
           );
         })}
+=======
+      <h2> Multiple Tracks</h2>
+      <Slider {...settings}>
+        <div className="abc">
+          <h3>1</h3>
+        </div>
+        <div className="abc">
+          <h3>2</h3>
+        </div>
+        <div className="abc">
+          <h3>3</h3>
+        </div>
+        <div className="abc">
+          <h3>4</h3>
+        </div>
+        <div className="abc">
+          <h3>5</h3>
+        </div>
+        <div className="abc">
+          <h3>6</h3>
+        </div>
+>>>>>>> aebdb0a34aad65083e98fdc8628382ea0cd829be
       </Slider>
       <Divider />
     </Box>
