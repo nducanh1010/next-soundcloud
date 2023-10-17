@@ -5,6 +5,7 @@ import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Box, Button, Divider } from "@mui/material";
+import Link from "next/link";
 interface IProps {
   data: ITrackTop[];
   title: string;
@@ -82,7 +83,9 @@ const MainSlider = (props: IProps) => {
               <img
                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
               />
-              <h4>{track.title}</h4>
+              <Link href={`/track/${track._id}`}>
+                <h4>{track.title}</h4>
+              </Link>
               <h5>{track.description}</h5>
             </div>
           );
