@@ -193,7 +193,7 @@ export default function AppHeader() {
               sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
               onClick={() => handleRedirectHome()}
             >
-              MUI
+              SoundCloud
             </Typography>
             <Search>
               <SearchIconWrapper>
