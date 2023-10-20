@@ -7,6 +7,7 @@ import { WaveSurferOptions } from "wavesurfer.js";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import "./wave.scss";
+import { Tooltip } from "@mui/material";
 
 const WaveTrack = () => {
   const searchParams = useSearchParams();
@@ -240,7 +241,12 @@ const WaveTrack = () => {
             <div className="comments" style={{ position: "relative" }}>
               {arrComments.map((item) => {
                 return (
+                  <Tooltip arrow title={item.content}>
                   <img
+                    onPointerMove={(e) => {
+                      const hover = hoverRef.current!;
+                      hover.style.width = calculateLeft(item.moment);
+                    }}
                     key={item.id}
                     style={{
                       width: "20px",
@@ -252,6 +258,7 @@ const WaveTrack = () => {
                     }}
                     src="http://localhost:8000/images/chill1.png"
                   />
+                  </Tooltip>
                 );
               })}
             </div>
