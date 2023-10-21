@@ -65,7 +65,7 @@ export default function AppHeader() {
   /*
    Trường hợp session bằng undefined : Usẻ chưa log in
   */
-  const { data: session } = useSession()  // login sesion
+  const { data: session } = useSession(); // login sesion
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -127,7 +127,14 @@ export default function AppHeader() {
           Profile
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          signOut();
+        }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -222,15 +229,20 @@ export default function AppHeader() {
                 },
               }}
             >
-              {session?
-              <>
-              <Link href={"/playlist"}>Playlist</Link>
-              <Link href={"/like"}>Likes</Link>
-              <Link href={"/playlist"}>Upload</Link>
-              <Avatar onClick={handleProfileMenuOpen}>DA</Avatar></>
-              :<>
-              <Link href={"/api/auth/signin"}>Login</Link></>}
-              
+              {session ? (
+                <>
+                  <Link href={"/playlist"}>Playlist</Link>
+                  <Link href={"/like"}>Likes</Link>
+                  <Link href={"/playlist"}>Upload</Link>
+                  <Avatar onClick={handleProfileMenuOpen}>DA</Avatar>
+                </>
+              ) : (
+                <>
+                  <Link href={"#"} onClick={() => signIn()}>
+                    Login
+                  </Link>
+                </>
+              )}
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
