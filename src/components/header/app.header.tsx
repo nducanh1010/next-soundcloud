@@ -19,7 +19,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { Avatar, Container } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { useSession, signIn, signOut } from "next-auth/react";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -61,6 +61,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  // lấy biến data từ hook useSession  gán vào session
+  /*
+   Trường hợp session bằng undefined : Usẻ chưa log in
+  */
+  const { data: session } = useSession()  // login sesion
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -217,10 +222,15 @@ export default function AppHeader() {
                 },
               }}
             >
+              {session?
+              <>
               <Link href={"/playlist"}>Playlist</Link>
               <Link href={"/like"}>Likes</Link>
               <Link href={"/playlist"}>Upload</Link>
-              <Avatar onClick={handleProfileMenuOpen}>DA</Avatar>
+              <Avatar onClick={handleProfileMenuOpen}>DA</Avatar></>
+              :<>
+              <Link href={"/api/auth/signin"}>Login</Link></>}
+              
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
