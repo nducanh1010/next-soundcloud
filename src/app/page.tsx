@@ -1,9 +1,11 @@
 import MainSlider from "@/components/main/main.slider";
 import { Container } from "@mui/material";
 import { sendRequest } from "@/utils/api";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function HomePage() {
-
+  // session lấy từ cookies gửi lên server, server sẽ giải mã phần cookie nạp vào memory
+  const session = await getServerSession(authOptions);
   const chills = await sendRequest<IBackendRes<ITrackTop[]>>({
     url: "http://localhost:8000/api/v1/tracks/top",
     method: "POST",
