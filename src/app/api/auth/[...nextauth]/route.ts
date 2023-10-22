@@ -77,11 +77,10 @@ export const authOptions: AuthOptions = {
           token.user = res.data.user;
         }
       }
-      if (trigger === "signIn" && account?.provider === "credentials") 
-       {
+      if (trigger === "signIn" && account?.provider === "credentials") {
         token.access_token = user.access_token;
-          token.refresh_token = user.refresh_token;
-          token.user = user.user;
+        token.refresh_token = user.refresh_token;
+        token.user = user.user;
       }
       return token;
     },
@@ -93,6 +92,9 @@ export const authOptions: AuthOptions = {
       }
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/signin", // custom trang sign in khác
   },
 };
 
