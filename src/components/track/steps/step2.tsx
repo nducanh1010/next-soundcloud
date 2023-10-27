@@ -15,6 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/utils/toast";
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
@@ -117,6 +118,7 @@ interface IProps {
     percent: number;
     uploadedTrackName: string;
   };
+  setValue: (number: number) => void;
 }
 interface INewTrack {
   title: string;
@@ -126,6 +128,8 @@ interface INewTrack {
   category: string;
 }
 const Step2 = (props: IProps) => {
+  const toast = useToast();
+
   const { data: session } = useSession();
   const [info, setInfo] = useState<INewTrack>({
     title: "",
@@ -134,7 +138,7 @@ const Step2 = (props: IProps) => {
     imgUrl: "",
     category: "",
   });
-  const { trackUpload } = props;
+  const { trackUpload, setValue } = props;
   React.useEffect(() => {
     setInfo({ ...info, trackUrl: trackUpload.uploadedTrackName });
   }, [trackUpload]);
@@ -153,19 +157,27 @@ const Step2 = (props: IProps) => {
     },
   ];
   const handleSubmitForm = async () => {
-    const res = await axios.post("http://localhost:8000/api/v1/tracks", info, {
-      headers: {
-        Authorization: `Bearer ${session?.access_token}`,
-        target_type: "images",
-      },
-    });
-    console.log(res);
+    const res = await axios
+      .post("http://localhost:8000/api/v1/tracks", info, {
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+          target_type: "images",
+        },
+      })
+      .then(() => {
+        setValue(0);
+        toast.success("New file created");
+      })
+      .catch((res) => {
+        // console.log('chec',res)
+        toast.error(res.response.data.message);
+      });
   };
   return (
     <div>
       <div>
         <div>{trackUpload.fileName}</div>
-        <LinearWithValueLabel trackUpload={trackUpload} />
+        <LinearWithValueLabel setValue={setValue} trackUpload={trackUpload} />
       </div>
 
       <Grid container spacing={2} mt={5}>
