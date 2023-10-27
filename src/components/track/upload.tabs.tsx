@@ -3,7 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import React from "react";
+import * as React from "react";
 import Step1 from "./steps/step1";
 import Step2 from "./steps/step2";
 
@@ -12,6 +12,7 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -28,15 +29,19 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
-export const BasicTabs = () => {
+const UploadTabs = () => {
   const [value, setValue] = React.useState(0);
+  const [trackUpload, setTrackUpload] = React.useState({
+    fileName: "",
+    percent: 0,
+  });
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ width: "100%", border: "1px solid #ccc", mt: 5 }}>
+    <Box sx={{ width: "100%", border: "1px solid #ccc", mt: 2 }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -48,19 +53,13 @@ export const BasicTabs = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Step1 />
+        <Step1 setValue={setValue} setTrackUpload={setTrackUpload} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Step2/>
+        <Step2 trackUpload={trackUpload} />
       </CustomTabPanel>
     </Box>
   );
 };
-const UploadTabs = () => {
-  return (
-    <>
-      <BasicTabs />
-    </>
-  );
-};
+
 export default UploadTabs;
