@@ -70,7 +70,6 @@ export default function AppHeader() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -118,7 +117,7 @@ export default function AppHeader() {
     >
       <MenuItem>
         <Link
-          href={"/profile"}
+          href={`/profile/${session?.user?._id}`}
           style={{
             textDecoration: "unset",
             color: "unset",
