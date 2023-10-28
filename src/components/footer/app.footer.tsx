@@ -7,7 +7,7 @@ const AppFooter = () => {
   const hasMounted = useHasMounted();
   if (!hasMounted) return <></>;
   return (
-    <div>
+    <div style={{ marginTop: 50 }}>
       <AppBar
         position="fixed"
         sx={{ top: "auto", bottom: 0, background: "#f2f2f2" }}
@@ -17,12 +17,16 @@ const AppFooter = () => {
             display: "flex",
             gap: 10,
             background: "#f2f2f2",
+            ".rhap_main": {
+              gap: 30,
+            },
           }}
         >
           <AudioPlayer
+            layout="horizontal-reverse"
             src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"
             volume={0.5}
-            style={{ boxShadow: "unset" }}
+            style={{ boxShadow: "unset", background: "#f2f2f2" }}
             // Try other props!
           />
           <div
