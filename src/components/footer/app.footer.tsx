@@ -1,9 +1,13 @@
 "use client";
+import { TrackContext, useTrackContext } from "@/lib/track.wrapper";
 import { useHasMounted } from "@/utils/customHook";
 import { AppBar, Container } from "@mui/material";
+import { useContext } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 const AppFooter = () => {
+  const {currentTrack,setCurrentTrack} = useTrackContext();
+  console.log("check contex", currentTrack);
   const hasMounted = useHasMounted();
   if (!hasMounted) return <></>;
   return (

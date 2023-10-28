@@ -2,6 +2,7 @@ import AppFooter from "@/components/footer/app.footer";
 import AppHeader from "@/components/header/app.header";
 import ThemeRegistry from "@/components/theme-registry/theme.registry";
 import NextAuthWrapper from "@/lib/next.auth.wrapper";
+import { TrackContextProvider } from "@/lib/track.wrapper";
 import { ToastProvider } from "@/utils/toast";
 
 const DRAWER_WIDTH = 240;
@@ -17,7 +18,10 @@ export default function RootLayout({
         <ThemeRegistry>
           {/* dùng gián tiếp use client */}
           <NextAuthWrapper>
-            <ToastProvider>{children}</ToastProvider>
+            <ToastProvider>
+              <TrackContextProvider>{children}</TrackContextProvider> 
+              {/* // share state Context */}
+            </ToastProvider>
           </NextAuthWrapper>
         </ThemeRegistry>
       </body>
