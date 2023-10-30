@@ -1,4 +1,5 @@
 import ProfileTrack from "@/components/header/profile.tracks";
+import { useTrackContext } from "@/lib/track.wrapper";
 import { sendRequest } from "@/utils/api";
 import { Container, Grid } from "@mui/material";
 
@@ -8,6 +9,7 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
     method: "POST",
     body: { id: params.slug },
   });
+
   const data = tracks?.data?.result ?? [];
   return (
     <>

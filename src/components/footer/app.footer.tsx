@@ -2,14 +2,25 @@
 import { TrackContext, useTrackContext } from "@/lib/track.wrapper";
 import { useHasMounted } from "@/utils/customHook";
 import { AppBar, Container } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 const AppFooter = () => {
-  const {currentTrack,setCurrentTrack} = useTrackContext();
+  const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
   console.log("check contex", currentTrack);
+  const playerRef = useRef(null);
   const hasMounted = useHasMounted();
+
   if (!hasMounted) return <></>;
+  if (playerRef?.current && currentTrack?.isPlaying === false) {
+    //@ts-ignore
+    playerRef?.current?.audio?.current?.pause();
+  }
+  if (playerRef?.current && currentTrack?.isPlaying === true) {
+    //@ts-ignore
+    playerRef?.current?.audio?.current?.play();
+  }
+
   return (
     <div style={{ marginTop: 50 }}>
       <AppBar
@@ -27,11 +38,18 @@ const AppFooter = () => {
           }}
         >
           <AudioPlayer
+            ref={playerRef}
             layout="horizontal-reverse"
-            src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"
+            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/tracks/${currentTrack.trackUrl}`}
             volume={0.5}
             style={{ boxShadow: "unset", background: "#f2f2f2" }}
             // Try other props!
+            onPlay={() => {
+              setCurrentTrack({ ...currentTrack, isPlaying: true });
+            }}
+            onPause={() => {
+              setCurrentTrack({ ...currentTrack, isPlaying: false });
+            }}
           />
           <div
             style={{
