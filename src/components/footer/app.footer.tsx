@@ -2,24 +2,24 @@
 import { TrackContext, useTrackContext } from "@/lib/track.wrapper";
 import { useHasMounted } from "@/utils/customHook";
 import { AppBar, Container } from "@mui/material";
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 const AppFooter = () => {
   const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
-  console.log("check contex", currentTrack);
   const playerRef = useRef(null);
   const hasMounted = useHasMounted();
-
+  useEffect(() => {
+    if (playerRef?.current && currentTrack?.isPlaying === false) {
+      //@ts-ignore
+      playerRef?.current?.audio?.current?.pause();
+    }
+    if (playerRef?.current && currentTrack?.isPlaying === true) {
+      //@ts-ignore
+      playerRef?.current?.audio?.current?.play();
+    }
+  }, [currentTrack]);
   if (!hasMounted) return <></>;
-  if (playerRef?.current && currentTrack?.isPlaying === false) {
-    //@ts-ignore
-    playerRef?.current?.audio?.current?.pause();
-  }
-  if (playerRef?.current && currentTrack?.isPlaying === true) {
-    //@ts-ignore
-    playerRef?.current?.audio?.current?.play();
-  }
 
   return (
     <div style={{ marginTop: 50 }}>

@@ -9,10 +9,14 @@ import PauseIcon from "@mui/icons-material/Pause";
 import "./wave.scss";
 import { Tooltip } from "@mui/material";
 import { sendRequest } from "@/utils/api";
-
-const WaveTrack = () => {
+import { useTrackContext } from "@/lib/track.wrapper";
+interface IProps {
+  track: ITrackTop | null;
+}
+const WaveTrack = (props: IProps) => {
+  const { track } = props;
+  const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
   const fileName = searchParams.get("audio");
   const containerRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
@@ -103,19 +107,7 @@ const WaveTrack = () => {
   }, []);
   const wavesurfer = useWavesurfer(containerRef, optionsMemo);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [trackInfo, setTrackInfo] = useState<ITrackTop | null>(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await sendRequest<IBackendRes<ITrackTop>>({
-        url: `http://localhost:8000/api/v1/tracks/${id}`,
-        method: "GET",
-      });
-      if (res && res.data) {
-        setTrackInfo(res.data);
-      }
-    };
-    fetchData();
-  }, [id]);
+
   // Initialize wavesurfer when the container mounts
   // or any of the props change
   useEffect(() => {
@@ -166,7 +158,17 @@ const WaveTrack = () => {
     const percent = (moment / hardCodeDuration) * 100;
     return `${percent}%`;
   };
-
+  useEffect(() => {
+    if (wavesurfer && currentTrack.isPlaying) {
+      wavesurfer.pause();
+    }
+  }, [currentTrack]);
+  useEffect(() => {
+    // chayj neeus f5 laij trang va co data
+    if (track?._id && !currentTrack?._id) {
+      setCurrentTrack({ ...track, isPlaying: false });
+    }
+  }, [track]);
   return (
     <div style={{ marginTop: 20 }}>
       <div
@@ -192,7 +194,15 @@ const WaveTrack = () => {
           <div className="info" style={{ display: "flex" }}>
             <div>
               <div
-                onClick={() => onPlayClick()}
+                onClick={() => {
+                  onPlayClick();
+                  if (track && wavesurfer) {
+                    setCurrentTrack({
+                      ...track,
+                      isPlaying: false,
+                    });
+                  }
+                }}
                 style={{
                   borderRadius: "50%",
                   background: "#f50",
@@ -221,7 +231,7 @@ const WaveTrack = () => {
                   color: "white",
                 }}
               >
-                {trackInfo?.title}
+                {track?.title}
               </div>
               <div
                 style={{
@@ -233,7 +243,7 @@ const WaveTrack = () => {
                   color: "white",
                 }}
               >
-                {trackInfo?.description}
+                {track?.description}
               </div>
             </div>
           </div>
