@@ -60,8 +60,8 @@ const AppFooter = () => {
               minWidth: 100,
             }}
           >
-            <div style={{ color: "#ccc" }}>DA</div>
-            <div style={{ color: "black" }}>Who i am ?</div>
+            <div style={{ color: "#ccc" }}>{currentTrack.description}</div>
+            <div style={{ color: "black" }}>{currentTrack.title}</div>
           </div>
         </Container>
       </AppBar>

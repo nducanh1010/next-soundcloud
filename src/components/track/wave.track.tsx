@@ -8,9 +8,11 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import "./wave.scss";
 import { Tooltip } from "@mui/material";
+import { sendRequest } from "@/utils/api";
 
 const WaveTrack = () => {
   const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const fileName = searchParams.get("audio");
   const containerRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
@@ -101,7 +103,19 @@ const WaveTrack = () => {
   }, []);
   const wavesurfer = useWavesurfer(containerRef, optionsMemo);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
+  const [trackInfo, setTrackInfo] = useState<ITrackTop | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await sendRequest<IBackendRes<ITrackTop>>({
+        url: `http://localhost:8000/api/v1/tracks/${id}`,
+        method: "GET",
+      });
+      if (res && res.data) {
+        setTrackInfo(res.data);
+      }
+    };
+    fetchData();
+  }, [id]);
   // Initialize wavesurfer when the container mounts
   // or any of the props change
   useEffect(() => {
@@ -207,7 +221,7 @@ const WaveTrack = () => {
                   color: "white",
                 }}
               >
-                DucAnh's Songs
+                {trackInfo?.title}
               </div>
               <div
                 style={{
@@ -219,7 +233,7 @@ const WaveTrack = () => {
                   color: "white",
                 }}
               >
-                DA
+                {trackInfo?.description}
               </div>
             </div>
           </div>
@@ -241,23 +255,23 @@ const WaveTrack = () => {
             <div className="comments" style={{ position: "relative" }}>
               {arrComments.map((item) => {
                 return (
-                  <Tooltip arrow title={item.content}>
-                  <img
-                    onPointerMove={(e) => {
-                      const hover = hoverRef.current!;
-                      hover.style.width = calculateLeft(item.moment);
-                    }}
-                    key={item.id}
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      position: "absolute",
-                      top: 71,
-                      zIndex: 20,
-                      left: calculateLeft(item.moment),
-                    }}
-                    src="http://localhost:8000/images/chill1.png"
-                  />
+                  <Tooltip arrow title={item.content} key={item.id}>
+                    <img
+                      onPointerMove={(e) => {
+                        const hover = hoverRef.current!;
+                        hover.style.width = calculateLeft(item.moment);
+                      }}
+                      key={item.id}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        position: "absolute",
+                        top: 71,
+                        zIndex: 20,
+                        left: calculateLeft(item.moment),
+                      }}
+                      src="http://localhost:8000/images/chill1.png"
+                    />
                   </Tooltip>
                 );
               })}
