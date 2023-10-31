@@ -12,9 +12,31 @@ import { sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
 interface IProps {
   track: ITrackTop | null;
+  comments: ITrackComment[] | null;
+}
+export interface ITrackComment {
+  _id: string;
+  content: string;
+  moment: number;
+  user: {
+    _id: string;
+    email: string;
+    name: string;
+    role: string;
+    type: string;
+  };
+  track: {
+    _id: string;
+    title: string;
+    description: string;
+    trackUrl: string;
+  };
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 const WaveTrack = (props: IProps) => {
-  const { track } = props;
+  const { track, comments } = props;
   const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
   const searchParams = useSearchParams();
   const fileName = searchParams.get("audio");
@@ -145,6 +167,7 @@ const WaveTrack = (props: IProps) => {
     if (wavesurfer) {
       wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
     }
+    setCurrentTrack({...track});
   }, [wavesurfer]);
 
   const formatTime = (seconds: number) => {
@@ -158,6 +181,7 @@ const WaveTrack = (props: IProps) => {
     const percent = (moment / hardCodeDuration) * 100;
     return `${percent}%`;
   };
+
   useEffect(() => {
     if (wavesurfer && currentTrack.isPlaying) {
       wavesurfer.pause();
@@ -194,11 +218,11 @@ const WaveTrack = (props: IProps) => {
           <div className="info" style={{ display: "flex" }}>
             <div>
               <div
-                onClick={() => {
+                onClick={async () => {
                   onPlayClick();
                   if (track && wavesurfer) {
                     setCurrentTrack({
-                      ...track,
+                      ...currentTrack,
                       isPlaying: false,
                     });
                   }
@@ -263,28 +287,29 @@ const WaveTrack = (props: IProps) => {
               }}
             ></div>
             <div className="comments" style={{ position: "relative" }}>
-              {arrComments.map((item) => {
-                return (
-                  <Tooltip arrow title={item.content} key={item.id}>
-                    <img
-                      onPointerMove={(e) => {
-                        const hover = hoverRef.current!;
-                        hover.style.width = calculateLeft(item.moment);
-                      }}
-                      key={item.id}
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        position: "absolute",
-                        top: 71,
-                        zIndex: 20,
-                        left: calculateLeft(item.moment),
-                      }}
-                      src="http://localhost:8000/images/chill1.png"
-                    />
-                  </Tooltip>
-                );
-              })}
+              {comments &&
+                comments.map((item) => {
+                  return (
+                    <Tooltip arrow title={item.content} key={item._id}>
+                      <img
+                        onPointerMove={(e) => {
+                          const hover = hoverRef.current!;
+                          hover.style.width = calculateLeft(item.moment);
+                        }}
+                        key={item._id}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          position: "absolute",
+                          top: 71,
+                          zIndex: 20,
+                          left: calculateLeft(item.moment),
+                        }}
+                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
+                      />
+                    </Tooltip>
+                  );
+                })}
             </div>
           </div>
         </div>
@@ -297,13 +322,22 @@ const WaveTrack = (props: IProps) => {
             alignItems: "center",
           }}
         >
-          <div
-            style={{
-              background: "#ccc",
-              width: 250,
-              height: 250,
-            }}
-          ></div>
+          {" "}
+          {track?.imgUrl ? (
+            <img
+              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
+              width={250}
+              height={250}
+            />
+          ) : (
+            <div
+              style={{
+                background: "#ccc",
+                width: 250,
+                height: 250,
+              }}
+            ></div>
+          )}
         </div>
       </div>
     </div>

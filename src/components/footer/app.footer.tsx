@@ -10,11 +10,11 @@ const AppFooter = () => {
   const playerRef = useRef(null);
   const hasMounted = useHasMounted();
   useEffect(() => {
-    if (playerRef?.current && currentTrack?.isPlaying === false) {
+    if (currentTrack?.isPlaying === false) {
       //@ts-ignore
       playerRef?.current?.audio?.current?.pause();
     }
-    if (playerRef?.current && currentTrack?.isPlaying === true) {
+    if (currentTrack?.isPlaying === true) {
       //@ts-ignore
       playerRef?.current?.audio?.current?.play();
     }
