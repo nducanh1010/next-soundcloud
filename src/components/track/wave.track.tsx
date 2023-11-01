@@ -8,7 +8,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import "./wave.scss";
 import { Tooltip } from "@mui/material";
-import { sendRequest } from "@/utils/api";
+import { fetchDefaultImages, sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
 interface IProps {
   track: ITrackTop | null;
@@ -42,30 +42,6 @@ const WaveTrack = (props: IProps) => {
   const fileName = searchParams.get("audio");
   const containerRef = useRef<HTMLDivElement>(null);
   const hoverRef = useRef<HTMLDivElement>(null);
-  const arrComments = [
-    {
-      id: 1,
-      avatar: "http://localhost:8000/images/chill1.png",
-      moment: 10,
-      user: "username 1",
-      content: "just a comment1",
-    },
-    {
-      id: 2,
-      avatar: "http://localhost:8000/images/chill1.png",
-      moment: 30,
-      user: "username 2",
-      content: "just a comment3",
-    },
-    {
-      id: 3,
-      avatar: "http://localhost:8000/images/chill1.png",
-      moment: 50,
-      user: "username 3",
-      content: "just a comment3",
-    },
-  ];
-
   const [time, setTime] = useState<string>("0:00");
   const [duration, setDuration] = useState<string>("0:00");
 
@@ -167,7 +143,7 @@ const WaveTrack = (props: IProps) => {
     if (wavesurfer) {
       wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
     }
-    setCurrentTrack({...track});
+    setCurrentTrack({ ...track });
   }, [wavesurfer]);
 
   const formatTime = (seconds: number) => {
@@ -305,7 +281,7 @@ const WaveTrack = (props: IProps) => {
                           zIndex: 20,
                           left: calculateLeft(item.moment),
                         }}
-                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
+                        src={fetchDefaultImages(item.user.type)}
                       />
                     </Tooltip>
                   );
