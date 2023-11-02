@@ -15,7 +15,7 @@ const DetailTrackPage = async (props: any) => {
     method: "POST",
     queryParams: {
       current: 1,
-      pageSize: 1,
+      pageSize: 10,
       trackId: params.slug,
       sort: "-createdAt",
     },
@@ -23,7 +23,10 @@ const DetailTrackPage = async (props: any) => {
   return (
     <Container>
       Detail Track Page
-      <WaveTrack track={res?.data ?? null} comments={res1?.data?.result??null} />
+      <WaveTrack
+        track={res?.data ?? null}
+        comments={res1?.data?.result ?? null}
+      />
     </Container>
   );
 };

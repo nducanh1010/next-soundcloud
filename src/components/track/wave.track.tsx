@@ -10,6 +10,7 @@ import "./wave.scss";
 import { Tooltip } from "@mui/material";
 import { fetchDefaultImages, sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
+import CommmentTrack from "./comment.track";
 interface IProps {
   track: ITrackTop | null;
   comments: ITrackComment[] | null;
@@ -143,7 +144,6 @@ const WaveTrack = (props: IProps) => {
     if (wavesurfer) {
       wavesurfer.isPlaying() ? wavesurfer.pause() : wavesurfer.play();
     }
-    setCurrentTrack({ ...track });
   }, [wavesurfer]);
 
   const formatTime = (seconds: number) => {
@@ -153,7 +153,7 @@ const WaveTrack = (props: IProps) => {
     return `${minutes}:${paddedSeconds}`;
   };
   const calculateLeft = (moment: number) => {
-    const hardCodeDuration = 199;
+    const hardCodeDuration = wavesurfer?.getDuration() ?? 0;
     const percent = (moment / hardCodeDuration) * 100;
     return `${percent}%`;
   };
@@ -281,7 +281,7 @@ const WaveTrack = (props: IProps) => {
                           zIndex: 20,
                           left: calculateLeft(item.moment),
                         }}
-                        src={fetchDefaultImages(item.user.type)}
+                        src={fetchDefaultImages(item?.user?.type ?? "GITHUB")}
                       />
                     </Tooltip>
                   );
@@ -315,6 +315,13 @@ const WaveTrack = (props: IProps) => {
             ></div>
           )}
         </div>
+      </div>
+      <div>
+        <CommmentTrack
+          track={track}
+          comments={comments}
+          wavesurfer={wavesurfer}
+        />
       </div>
     </div>
   );

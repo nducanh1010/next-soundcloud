@@ -13,6 +13,7 @@ export default function RootLayout({
       {/* dùng gián tiếp use client */}
       <AppHeader />
       {children}
+      <div style={{marginBottom:"100px"}}></div>
       <AppFooter />
     </>
   );
