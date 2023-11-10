@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useWavesurfer } from "@/utils/customHook";
 import { WaveSurferOptions } from "wavesurfer.js";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -11,6 +11,7 @@ import { Tooltip } from "@mui/material";
 import { fetchDefaultImages, sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
 import CommmentTrack from "./comment.track";
+import LikeTrack from "./like.track";
 interface IProps {
   track: ITrackTop | null;
   comments: ITrackComment[] | null;
@@ -45,7 +46,8 @@ const WaveTrack = (props: IProps) => {
   const hoverRef = useRef<HTMLDivElement>(null);
   const [time, setTime] = useState<string>("0:00");
   const [duration, setDuration] = useState<string>("0:00");
-
+  const router = useRouter();
+  const viewRef = useRef(true);
   const optionsMemo = useMemo((): Omit<WaveSurferOptions, "container"> => {
     let gradient, progressGradient;
     if (typeof window !== "undefined") {
@@ -169,6 +171,20 @@ const WaveTrack = (props: IProps) => {
       setCurrentTrack({ ...track, isPlaying: false });
     }
   }, [track]);
+  const handleIncreaseView = async () => {
+    if (viewRef.current) {
+      // chỉ tăng view 1 lần
+      const res = await sendRequest<IBackendRes<ITrackTop>>({
+        url: `http://localhost:8000/api/v1/tracks/increase-view`,
+        method: "POST",
+        body: {
+          trackId: track?._id,
+        },
+      });
+      router.refresh();
+      viewRef.current = false;
+    }
+  };
   return (
     <div style={{ marginTop: 20 }}>
       <div
@@ -195,6 +211,7 @@ const WaveTrack = (props: IProps) => {
             <div>
               <div
                 onClick={async () => {
+                  handleIncreaseView();
                   onPlayClick();
                   if (track && wavesurfer) {
                     setCurrentTrack({
@@ -315,6 +332,9 @@ const WaveTrack = (props: IProps) => {
             ></div>
           )}
         </div>
+      </div>
+      <div>
+        <LikeTrack track={track} />
       </div>
       <div>
         <CommmentTrack
