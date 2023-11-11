@@ -7,11 +7,11 @@ import { WaveSurferOptions } from "wavesurfer.js";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import "./wave.scss";
-import { Tooltip } from "@mui/material";
 import { fetchDefaultImages, sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
 import CommmentTrack from "./comment.track";
 import LikeTrack from "./like.track";
+import Tooltip from "@mui/material/Tooltip";
 interface IProps {
   track: ITrackTop | null;
   comments: ITrackComment[] | null;

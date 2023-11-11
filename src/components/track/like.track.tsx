@@ -1,5 +1,4 @@
 import Chip from "@mui/material/Chip";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useEffect, useState } from "react";
