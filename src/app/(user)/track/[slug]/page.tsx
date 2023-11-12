@@ -14,15 +14,13 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   // read route params
   const slug = params.slug;
-
+  const temp = slug.split(".html") ?? [];
+  const temp1 = temp[0].split("-") ?? [];
+  const songId = temp1[temp1.length - 1] ?? ""; // lấy ra phần tử cuối cùng là id của bài hát
   // fetch data
-  const product = await fetch(`https://.../${slug}`).then((res) => res.json());
   const res = await sendRequest<IBackendRes<ITrackTop>>({
-    url: `http://localhost:8000/api/v1/tracks/${params.slug}`,
+    url: `http://localhost:8000/api/v1/tracks/${songId}`,
     method: "GET",
-    nextOption: {
-      cache: "no-store",
-    },
   });
 
   return {
@@ -34,8 +32,13 @@ export async function generateMetadata(
 //slug dduwwocj đặt tên theo thu mục động [slug]
 const DetailTrackPage = async (props: any) => {
   const { params } = props;
+  const slug = params.slug;
+  const temp = slug.split(".html") ?? [];
+  const temp1 = temp[0].split("-") ?? [];
+  const songId = temp1[temp1.length - 1] ?? ""; // lấy ra phần tử cuối cùng là id của bài hát
+  console.log("cehck", songId);
   const res = await sendRequest<IBackendRes<ITrackTop>>({
-    url: `http://localhost:8000/api/v1/tracks/${params.slug}`,
+    url: `http://localhost:8000/api/v1/tracks/${songId}`,
     method: "GET",
     nextOption: {
       cache: "no-store",
@@ -47,7 +50,7 @@ const DetailTrackPage = async (props: any) => {
     queryParams: {
       current: 1,
       pageSize: 10,
-      trackId: params.slug,
+      trackId: songId,
       sort: "-createdAt",
     },
   });
