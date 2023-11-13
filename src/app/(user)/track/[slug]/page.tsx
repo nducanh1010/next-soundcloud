@@ -36,7 +36,6 @@ const DetailTrackPage = async (props: any) => {
   const temp = slug.split(".html") ?? [];
   const temp1 = temp[0].split("-") ?? [];
   const songId = temp1[temp1.length - 1] ?? ""; // lấy ra phần tử cuối cùng là id của bài hát
-  console.log("cehck", songId);
   const res = await sendRequest<IBackendRes<ITrackTop>>({
     url: `http://localhost:8000/api/v1/tracks/${songId}`,
     method: "GET",
