@@ -1,9 +1,8 @@
 import WaveTrack, { ITrackComment } from "@/components/track/wave.track";
 import { sendRequest } from "@/utils/api";
 import { Container } from "@mui/material";
-import { useSearchParams } from "next/navigation";
 import type { Metadata, ResolvingMetadata } from "next";
-
+import { notFound } from "next/navigation";
 type Props = {
   params: { slug: string };
 };
@@ -22,7 +21,9 @@ export async function generateMetadata(
     url: `http://localhost:8000/api/v1/tracks/${songId}`,
     method: "GET",
   });
-
+  if (!res?.data) {
+    notFound();
+  }
   return {
     title: res?.data?.title,
     description: res?.data?.description,
