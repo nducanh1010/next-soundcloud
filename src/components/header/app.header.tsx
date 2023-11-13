@@ -17,6 +17,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Avatar, Container } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -234,10 +235,13 @@ export default function AppHeader() {
                   <Link href={"/playlist"}>Playlist</Link>
                   <Link href={"/like"}>Likes</Link>
                   <Link href={"/track/upload"}>Upload</Link>
-                  <img
+                  <Image
                     onClick={handleProfileMenuOpen}
                     style={{ height: 35, width: 35, cursor: "pointer" }}
                     src={fetchDefaultImages(session.user.type)}
+                    alt="avatar"
+                    height={35}
+                    width={35}
                   />
                   {/* <Avatar onClick={handleProfileMenuOpen}>DA</Avatar> */}
                 </>

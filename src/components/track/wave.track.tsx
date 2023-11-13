@@ -12,6 +12,7 @@ import { useTrackContext } from "@/lib/track.wrapper";
 import CommmentTrack from "./comment.track";
 import LikeTrack from "./like.track";
 import Tooltip from "@mui/material/Tooltip";
+import Image from "next/image";
 interface IProps {
   track: ITrackTop | null;
   comments: ITrackComment[] | null;
@@ -284,15 +285,16 @@ const WaveTrack = (props: IProps) => {
                 comments.map((item) => {
                   return (
                     <Tooltip arrow title={item.content} key={item._id}>
-                      <img
+                      <Image
+                        alt="comment user"
                         onPointerMove={(e) => {
                           const hover = hoverRef.current!;
                           hover.style.width = calculateLeft(item.moment);
                         }}
                         key={item._id}
+                        height={20}
+                        width={20}
                         style={{
-                          width: "20px",
-                          height: "20px",
                           position: "absolute",
                           top: 71,
                           zIndex: 20,
@@ -317,10 +319,11 @@ const WaveTrack = (props: IProps) => {
         >
           {" "}
           {track?.imgUrl ? (
-            <img
+            <Image
               src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
               width={250}
               height={250}
+              alt="image track"
             />
           ) : (
             <div

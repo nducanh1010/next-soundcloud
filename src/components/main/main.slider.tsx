@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Box, Button, Divider } from "@mui/material";
 import Link from "next/link";
 import { convertSlug } from "@/utils/api";
+import Image from "next/image";
 interface IProps {
   data: ITrackTop[];
   title: string;
@@ -56,6 +57,32 @@ const MainSlider = (props: IProps) => {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PreviousArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     // sx cho pheps code trực tiếp css, được sport bởi next
@@ -81,10 +108,29 @@ const MainSlider = (props: IProps) => {
         {props.data.map((track) => {
           return (
             <div className="track" key={track._id}>
-              <img
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
-              />
-              <Link href={`/track/${convertSlug(track.title)}-${track._id}.html?audio=${track.trackUrl}&id=${track._id}`}>
+              <div
+                style={{
+                  position: "relative",
+                  height: "150px",
+                  width: "100%",
+                }}
+              >
+                <Image
+                  alt="track photo"
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
+                  // width={500}
+                  // height={500}
+                  fill
+                  style={{
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
+              <Link
+                href={`/track/${convertSlug(track.title)}-${
+                  track._id
+                }.html?audio=${track.trackUrl}&id=${track._id}`}
+              >
                 <h4>{track.title}</h4>
               </Link>
               <h5>{track.description}</h5>
