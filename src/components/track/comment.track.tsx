@@ -100,8 +100,8 @@ const CommmentTrack = (props: IProps) => {
                 >
                   <Image
                     alt="avatar comment"
-                    height={150}
-                    width={150}
+                    height={20}
+                    width={20}
                     src={fetchDefaultImages(item?.user?.type ?? "GITHUB")}
                   />
 

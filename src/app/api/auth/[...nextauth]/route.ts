@@ -6,7 +6,7 @@ import githubLogo from "@/lib/logo/github.svg";
 import githubDarkLogo from "@/lib/logo/github-dark.svg";
 import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: AuthOptions = {
-  secret: process.env.NO_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
