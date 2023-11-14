@@ -18,7 +18,7 @@ export async function generateMetadata(
   const songId = temp1[temp1.length - 1] ?? ""; // lấy ra phần tử cuối cùng là id của bài hát
   // fetch data
   const res = await sendRequest<IBackendRes<ITrackTop>>({
-    url: `http://localhost:8000/api/v1/tracks/${songId}`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/${songId}`,
     method: "GET",
   });
   if (!res?.data) {
@@ -38,14 +38,14 @@ const DetailTrackPage = async (props: any) => {
   const temp1 = temp[0].split("-") ?? [];
   const songId = temp1[temp1.length - 1] ?? ""; // lấy ra phần tử cuối cùng là id của bài hát
   const res = await sendRequest<IBackendRes<ITrackTop>>({
-    url: `http://localhost:8000/api/v1/tracks/${songId}`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/${songId}`,
     method: "GET",
     nextOption: {
       cache: "no-store",
     },
   });
   const res1 = await sendRequest<IBackendRes<IModelPaginate<ITrackComment>>>({
-    url: `http://localhost:8000/api/v1/tracks/comments`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/comments`,
     method: "POST",
     queryParams: {
       current: 1,

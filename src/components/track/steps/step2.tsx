@@ -63,7 +63,7 @@ function InputFileUpload(props: any) {
       const formData = new FormData();
       formData.append("fileUpload", image);
       const res = await axios.post(
-        "http://localhost:8000/api/v1/files/upload",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/files/upload`,
         formData,
         {
           headers: {
@@ -158,7 +158,7 @@ const Step2 = (props: IProps) => {
   ];
   const handleSubmitForm = async () => {
     const res = await axios
-      .post("http://localhost:8000/api/v1/tracks", info, {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks`, info, {
         headers: {
           Authorization: `Bearer ${session?.access_token}`,
           target_type: "images",

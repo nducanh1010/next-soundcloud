@@ -8,25 +8,25 @@ export default async function HomePage() {
   const session = await getServerSession(authOptions);
   // console.log('session',session)
   const chills = await sendRequest<IBackendRes<ITrackTop[]>>({
-    url: "http://localhost:8000/api/v1/tracks/top",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/top`,
     method: "POST",
     body: { category: "CHILL", limit: 10 },
   });
 
   const workouts = await sendRequest<IBackendRes<ITrackTop[]>>({
-    url: "http://localhost:8000/api/v1/tracks/top",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/top`,
     method: "POST",
     body: { category: "WORKOUT", limit: 10 },
   });
 
   const party = await sendRequest<IBackendRes<ITrackTop[]>>({
-    url: "http://localhost:8000/api/v1/tracks/top",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/top`,
     method: "POST",
     body: { category: "PARTY", limit: 10 },
   });
 
   const res = await sendRequest<IBackendRes<ITrackTop[]>>({
-    url: "http://localhost:8000/api/v1/tracks/top",
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/top`,
     method: "POST",
     // body: { category: "CHILL", limit: 1 },
   });
