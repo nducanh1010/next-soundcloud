@@ -56,7 +56,6 @@ const DetailTrackPage = async (props: any) => {
   });
   return (
     <Container>
-      Detail Track Page
       <WaveTrack
         track={res?.data ?? null}
         comments={res1?.data?.result ?? null}

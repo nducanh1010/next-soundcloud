@@ -7,4 +7,4 @@ export default withAuth({
   },
 });
 // neeus ng dungf chuwa ddawng nhaapj quay veef trang log in
-export const config = { matcher: ["/playlist", "/track/upload","like"] };
+export const config = { matcher: ["/playlist", "/track/upload","/like"] };
