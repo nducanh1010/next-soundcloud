@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeRegistry>
-          <NprogressWrapper>
+          {/* <NprogressWrapper> */}
             {/* dùng gián tiếp use client */}
             <NextAuthWrapper>
               <ToastProvider>
@@ -25,7 +25,7 @@ export default function RootLayout({
                 {/* // share state Context */}
               </ToastProvider>
             </NextAuthWrapper>
-          </NprogressWrapper>
+          {/* </NprogressWrapper> */}
         </ThemeRegistry>
       </body>
     </html>

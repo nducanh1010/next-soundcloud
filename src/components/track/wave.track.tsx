@@ -182,6 +182,15 @@ const WaveTrack = (props: IProps) => {
           trackId: track?._id,
         },
       });
+      // clear dat cache
+      // await sendRequest<IBackendRes<any>>({
+      //   url: `/api/revalidate`,
+      //   method: "POST",
+      //   queryParams: {
+      //     tag: "track-by-id",
+      //     secret: "secret_jwt",
+      //   },
+      // });
       router.refresh();
       viewRef.current = false;
     }

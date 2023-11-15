@@ -247,7 +247,7 @@ export default function AppHeader() {
                 </>
               ) : (
                 <>
-                  <Link href={"auth/signin"}>Login</Link>
+                  <Link href={"/auth/signin"} replace >Login</Link>
                 </>
               )}
             </Box>

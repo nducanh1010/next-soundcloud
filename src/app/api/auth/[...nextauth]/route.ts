@@ -78,14 +78,19 @@ export const authOptions: AuthOptions = {
         }
       }
       if (trigger === "signIn" && account?.provider === "credentials") {
+        //@ts-ignore
         token.access_token = user.access_token;
+        //@ts-ignore
         token.refresh_token = user.refresh_token;
+        //@ts-ignore
         token.user = user.user;
       }
       return token;
     },
     async session({ session, token, user }) {
       if (token) {
+        console.log("check token", token);
+        console.log("sesions", session);
         session.access_token = token.access_token;
         session.refresh_token = token.refresh_token;
         session.user = token.user;

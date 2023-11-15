@@ -42,6 +42,7 @@ const DetailTrackPage = async (props: any) => {
     method: "GET",
     nextOption: {
       cache: "no-store",
+      // next:{tags:['track-by-id']}   // để trigger update dât mỗi lần handle
     },
   });
   const res1 = await sendRequest<IBackendRes<IModelPaginate<ITrackComment>>>({

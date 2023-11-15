@@ -74,6 +74,7 @@ const CommmentTrack = (props: IProps) => {
       <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
         <div className="left" style={{ width: "190px" }}>
           <Image
+            alt="comment avatar"
             height={150}
             width={150}
             src={fetchDefaultImages(track?.uploader?.type!)}
